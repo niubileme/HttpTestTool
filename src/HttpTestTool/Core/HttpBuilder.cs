@@ -34,6 +34,10 @@ namespace HttpTestTool.Core
                 {
                     if (header.Key.ToLower() == "content-type")
                         request.ContentType = header.Value;
+                    else if (header.Key.ToLower() == "user-agent")
+                        request.UserAgent = header.Value;
+                    else if (header.Key.ToLower() == "referer")
+                        request.Referer = header.Value;
                     else
                         request.Headers.Add(header.Key, header.Value);
                 }
@@ -56,14 +60,15 @@ namespace HttpTestTool.Core
             }
             catch (WebException ex)
             {
-                var response = (HttpWebResponse)ex.Response;
-                respnseModel.StatusCode = (int)response.StatusCode;
-                respnseModel.Response = GetResponseBody(response, encoding);
+                respnseModel.StatusCode = -1;
+                respnseModel.Response = ex.Message;
+                respnseModel.Exception = ex;
             }
             catch (Exception ex)
             {
                 respnseModel.StatusCode = -1;
                 respnseModel.Response = ex.Message;
+                respnseModel.Exception = ex;
             }
             return respnseModel;
         }

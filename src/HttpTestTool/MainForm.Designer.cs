@@ -46,6 +46,30 @@
             this.cbb_RequestMethod = new System.Windows.Forms.ComboBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.rtxt_Console = new System.Windows.Forms.RichTextBox();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txt_RPS_Count = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txt_RPS_TotalTime = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txt_VU_TotalTime = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txt_VU_UserCount = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txt_VU_Interval = new System.Windows.Forms.TextBox();
+            this.rb_RPS = new System.Windows.Forms.RadioButton();
+            this.rb_VU = new System.Windows.Forms.RadioButton();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btn_Start = new System.Windows.Forms.Button();
+            this.btn_Stop = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -55,6 +79,12 @@
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -71,8 +101,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.rtxt_Console);
-            this.splitContainer1.Size = new System.Drawing.Size(937, 538);
-            this.splitContainer1.SplitterDistance = 622;
+            this.splitContainer1.Size = new System.Drawing.Size(1094, 538);
+            this.splitContainer1.SplitterDistance = 624;
             this.splitContainer1.TabIndex = 0;
             // 
             // tabControl1
@@ -83,7 +113,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(622, 538);
+            this.tabControl1.Size = new System.Drawing.Size(624, 538);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -228,12 +258,14 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox5);
+            this.tabPage2.Controls.Add(this.groupBox4);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(614, 512);
+            this.tabPage2.Size = new System.Drawing.Size(616, 512);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "压测模式";
+            this.tabPage2.Text = "压测配置";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // rtxt_Console
@@ -241,15 +273,251 @@
             this.rtxt_Console.Dock = System.Windows.Forms.DockStyle.Fill;
             this.rtxt_Console.Location = new System.Drawing.Point(0, 0);
             this.rtxt_Console.Name = "rtxt_Console";
-            this.rtxt_Console.Size = new System.Drawing.Size(311, 538);
+            this.rtxt_Console.Size = new System.Drawing.Size(466, 538);
             this.rtxt_Console.TabIndex = 0;
             this.rtxt_Console.Text = "";
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.tabPage3);
+            this.tabControl2.Controls.Add(this.tabPage4);
+            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl2.Location = new System.Drawing.Point(3, 17);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(572, 131);
+            this.tabControl2.TabIndex = 0;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.label7);
+            this.tabPage3.Controls.Add(this.txt_RPS_TotalTime);
+            this.tabPage3.Controls.Add(this.label6);
+            this.tabPage3.Controls.Add(this.label5);
+            this.tabPage3.Controls.Add(this.txt_RPS_Count);
+            this.tabPage3.Controls.Add(this.label1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(564, 105);
+            this.tabPage3.TabIndex = 0;
+            this.tabPage3.Text = "吞吐量模式";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.label12);
+            this.tabPage4.Controls.Add(this.label11);
+            this.tabPage4.Controls.Add(this.txt_VU_Interval);
+            this.tabPage4.Controls.Add(this.label8);
+            this.tabPage4.Controls.Add(this.txt_VU_TotalTime);
+            this.tabPage4.Controls.Add(this.label9);
+            this.tabPage4.Controls.Add(this.label10);
+            this.tabPage4.Controls.Add(this.txt_VU_UserCount);
+            this.tabPage4.Controls.Add(this.label2);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(564, 105);
+            this.tabPage4.TabIndex = 1;
+            this.tabPage4.Text = "并发模式";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.tabControl2);
+            this.groupBox4.Location = new System.Drawing.Point(17, 20);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(578, 151);
+            this.groupBox4.TabIndex = 1;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "压测模式";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(311, 12);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "每秒发出固定的请求数，主要用TPS来衡量系统的吞吐能力";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(11, 11);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(317, 12);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "模拟虚拟用户并发访问，测试系统能承载的最大在线用户数";
+            // 
+            // txt_RPS_Count
+            // 
+            this.txt_RPS_Count.Location = new System.Drawing.Point(78, 41);
+            this.txt_RPS_Count.Name = "txt_RPS_Count";
+            this.txt_RPS_Count.Size = new System.Drawing.Size(92, 21);
+            this.txt_RPS_Count.TabIndex = 1;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(12, 45);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(59, 12);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "每秒发送:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 74);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(59, 12);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "持续时长:";
+            // 
+            // txt_RPS_TotalTime
+            // 
+            this.txt_RPS_TotalTime.Location = new System.Drawing.Point(78, 72);
+            this.txt_RPS_TotalTime.Name = "txt_RPS_TotalTime";
+            this.txt_RPS_TotalTime.Size = new System.Drawing.Size(92, 21);
+            this.txt_RPS_TotalTime.TabIndex = 4;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(175, 77);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(29, 12);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "分钟";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(174, 76);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(29, 12);
+            this.label8.TabIndex = 10;
+            this.label8.Text = "分钟";
+            // 
+            // txt_VU_TotalTime
+            // 
+            this.txt_VU_TotalTime.Location = new System.Drawing.Point(77, 71);
+            this.txt_VU_TotalTime.Name = "txt_VU_TotalTime";
+            this.txt_VU_TotalTime.Size = new System.Drawing.Size(92, 21);
+            this.txt_VU_TotalTime.TabIndex = 9;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(11, 73);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(59, 12);
+            this.label9.TabIndex = 8;
+            this.label9.Text = "持续时长:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(11, 44);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(59, 12);
+            this.label10.TabIndex = 7;
+            this.label10.Text = "模拟用户:";
+            // 
+            // txt_VU_UserCount
+            // 
+            this.txt_VU_UserCount.Location = new System.Drawing.Point(77, 40);
+            this.txt_VU_UserCount.Name = "txt_VU_UserCount";
+            this.txt_VU_UserCount.Size = new System.Drawing.Size(92, 21);
+            this.txt_VU_UserCount.TabIndex = 6;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(214, 46);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(59, 12);
+            this.label11.TabIndex = 12;
+            this.label11.Text = "请求间隔:";
+            // 
+            // txt_VU_Interval
+            // 
+            this.txt_VU_Interval.Location = new System.Drawing.Point(280, 42);
+            this.txt_VU_Interval.Name = "txt_VU_Interval";
+            this.txt_VU_Interval.Size = new System.Drawing.Size(92, 21);
+            this.txt_VU_Interval.TabIndex = 11;
+            // 
+            // rb_RPS
+            // 
+            this.rb_RPS.AutoSize = true;
+            this.rb_RPS.Location = new System.Drawing.Point(28, 36);
+            this.rb_RPS.Name = "rb_RPS";
+            this.rb_RPS.Size = new System.Drawing.Size(83, 16);
+            this.rb_RPS.TabIndex = 2;
+            this.rb_RPS.TabStop = true;
+            this.rb_RPS.Text = "吞吐量模式";
+            this.rb_RPS.UseVisualStyleBackColor = true;
+            // 
+            // rb_VU
+            // 
+            this.rb_VU.AutoSize = true;
+            this.rb_VU.Location = new System.Drawing.Point(139, 36);
+            this.rb_VU.Name = "rb_VU";
+            this.rb_VU.Size = new System.Drawing.Size(71, 16);
+            this.rb_VU.TabIndex = 3;
+            this.rb_VU.TabStop = true;
+            this.rb_VU.Text = "并发模式";
+            this.rb_VU.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.btn_Stop);
+            this.groupBox5.Controls.Add(this.btn_Start);
+            this.groupBox5.Controls.Add(this.rb_RPS);
+            this.groupBox5.Controls.Add(this.rb_VU);
+            this.groupBox5.Location = new System.Drawing.Point(17, 195);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(575, 82);
+            this.groupBox5.TabIndex = 4;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "选择模式";
+            // 
+            // btn_Start
+            // 
+            this.btn_Start.Location = new System.Drawing.Point(367, 33);
+            this.btn_Start.Name = "btn_Start";
+            this.btn_Start.Size = new System.Drawing.Size(75, 23);
+            this.btn_Start.TabIndex = 4;
+            this.btn_Start.Text = "开始";
+            this.btn_Start.UseVisualStyleBackColor = true;
+            this.btn_Start.Click += new System.EventHandler(this.btn_Start_Click);
+            // 
+            // btn_Stop
+            // 
+            this.btn_Stop.Location = new System.Drawing.Point(469, 33);
+            this.btn_Stop.Name = "btn_Stop";
+            this.btn_Stop.Size = new System.Drawing.Size(75, 23);
+            this.btn_Stop.TabIndex = 5;
+            this.btn_Stop.Text = "结束";
+            this.btn_Stop.UseVisualStyleBackColor = true;
+            this.btn_Stop.Click += new System.EventHandler(this.btn_Stop_Click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(378, 46);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(29, 12);
+            this.label12.TabIndex = 13;
+            this.label12.Text = "毫秒";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(937, 538);
+            this.ClientSize = new System.Drawing.Size(1094, 538);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -267,6 +535,15 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -291,6 +568,30 @@
         private System.Windows.Forms.RichTextBox rtxt_RequestHeaders;
         private System.Windows.Forms.RichTextBox rtxt_RequestBody;
         private System.Windows.Forms.Button btn_RequestTest;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txt_RPS_Count;
+        private System.Windows.Forms.TextBox txt_RPS_TotalTime;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txt_VU_TotalTime;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txt_VU_UserCount;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txt_VU_Interval;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.RadioButton rb_RPS;
+        private System.Windows.Forms.RadioButton rb_VU;
+        private System.Windows.Forms.Button btn_Stop;
+        private System.Windows.Forms.Button btn_Start;
+        private System.Windows.Forms.Label label12;
     }
 }
 

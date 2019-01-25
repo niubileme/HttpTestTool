@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,9 +15,11 @@ namespace HttpTestTool
 {
     public partial class MainForm : Form
     {
+        private RPSSchedulerService _RPSService;
         public MainForm()
         {
             InitializeComponent();
+            Control.CheckForIllegalCrossThreadCalls = false;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -25,6 +28,17 @@ namespace HttpTestTool
             txt_RequestTimeOut.Text = "5000";
             cb_AutoRedirect.Checked = true;
             cb_KeepAlive.Checked = true;
+
+            txt_RPS_Count.Text = "100";
+            txt_RPS_TotalTime.Text = "1";
+            txt_VU_UserCount.Text = "10";
+            txt_VU_Interval.Text = "500";
+            txt_VU_TotalTime.Text = "1";
+
+            rb_RPS.Checked = true;
+            btn_Start.Enabled = true;
+            btn_Stop.Enabled = false;
+
         }
 
         private void btn_RequestTest_Click(object sender, EventArgs e)
@@ -33,7 +47,7 @@ namespace HttpTestTool
             if (request != null)
             {
                 var response = HttpBuilder.Handle(request);
-                ConsoleLog(response);
+                TestConsoleLog(response);
             }
         }
 
@@ -77,13 +91,86 @@ namespace HttpTestTool
             return request;
         }
 
-        public void ConsoleLog(ResponseModel response)
+        public void TestConsoleLog(ResponseModel response)
         {
             rtxt_Console.Invoke(new Action<ResponseModel>(x =>
             {
+                rtxt_Console.Clear();
                 var log = string.Format("Status:{0}\r\n", x.StatusCode);
+                log += x.Response;
                 rtxt_Console.AppendText(log);
             }), response);
+        }
+
+        public void ConsoleLog(string msg)
+        {
+            rtxt_Console.Invoke(new Action<string>(x =>
+            {
+                rtxt_Console.AppendText(string.Format("[{0}]{1}\r\n", DateTime.Now.ToString("HH:mm:ss"), x));
+                rtxt_Console.ScrollToCaret();
+            }), msg);
+        }
+
+        public void ClearConsole()
+        {
+            rtxt_Console.Invoke(new Action(() =>
+            {
+                rtxt_Console.Clear();
+            }));
+        }
+
+        public void UIEnabled(bool isStart)
+        {
+            btn_Start.Enabled = !isStart;
+            btn_Stop.Enabled = isStart;
+            rb_RPS.Enabled= !isStart;
+            rb_VU.Enabled = !isStart;
+        }
+
+        private void btn_Start_Click(object sender, EventArgs e)
+        {
+            var request = ValidateRequestParameter();
+            if (request != null)
+            {
+                if (rb_RPS.Checked)
+                {
+                    int count = 0;
+                    if (!int.TryParse(txt_RPS_Count.Text, out count))
+                    {
+                        MessageBox.Show("每秒发送次数错误");
+                        return;
+                    }
+                    int total = 0;
+                    if (!int.TryParse(txt_RPS_TotalTime.Text, out total))
+                    {
+                        MessageBox.Show("持续时长错误");
+                        return;
+                    }
+                    ClearConsole();
+                    _RPSService = new RPSSchedulerService(request, count, total, ConsoleLog);
+                    _RPSService.Start();
+                }
+                else if (rb_VU.Checked)
+                {
+
+                }
+
+                UIEnabled(true);
+            }
+        }
+
+        private void btn_Stop_Click(object sender, EventArgs e)
+        {
+            if (rb_RPS.Checked)
+            {
+                if (_RPSService != null)
+                    _RPSService.Stop();
+            }
+            else if (rb_VU.Checked)
+            {
+
+            }
+            UIEnabled(false);
         }
     }
 }
