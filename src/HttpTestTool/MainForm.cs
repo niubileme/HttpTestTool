@@ -25,6 +25,9 @@ namespace HttpTestTool
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            //初始化
+            rtxt_Url.Text = "https://www.baidu.com/";
+
             cbb_RequestMethod.SelectedIndex = 0;
             txt_RequestTimeOut.Text = "5000";
             cb_AutoRedirect.Checked = true;
@@ -148,6 +151,7 @@ namespace HttpTestTool
                         return;
                     }
                     ClearConsole();
+                    ConsoleLog("吞吐量模式开始");
                     _RPSService = new RPSSchedulerService(request, count, total * 60, ConsoleLog);
                     _RPSService.Start();
                 }
@@ -172,6 +176,7 @@ namespace HttpTestTool
                         return;
                     }
                     ClearConsole();
+                    ConsoleLog("并发模式开始");
                     _VUService = new VUSchedulerService(request, user, interval, total * 60, ConsoleLog);
                     _VUService.Start();
                 }
