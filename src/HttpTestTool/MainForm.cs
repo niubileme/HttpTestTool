@@ -16,6 +16,7 @@ namespace HttpTestTool
     public partial class MainForm : Form
     {
         private RPSSchedulerService _RPSService;
+        private VUSchedulerService _VUService;
         public MainForm()
         {
             InitializeComponent();
@@ -29,10 +30,10 @@ namespace HttpTestTool
             cb_AutoRedirect.Checked = true;
             cb_KeepAlive.Checked = true;
 
-            txt_RPS_Count.Text = "100";
+            txt_RPS_Count.Text = "5";
             txt_RPS_TotalTime.Text = "1";
-            txt_VU_UserCount.Text = "10";
-            txt_VU_Interval.Text = "500";
+            txt_VU_UserCount.Text = "3";
+            txt_VU_Interval.Text = "2000";
             txt_VU_TotalTime.Text = "1";
 
             rb_RPS.Checked = true;
@@ -123,7 +124,7 @@ namespace HttpTestTool
         {
             btn_Start.Enabled = !isStart;
             btn_Stop.Enabled = isStart;
-            rb_RPS.Enabled= !isStart;
+            rb_RPS.Enabled = !isStart;
             rb_VU.Enabled = !isStart;
         }
 
@@ -147,12 +148,32 @@ namespace HttpTestTool
                         return;
                     }
                     ClearConsole();
-                    _RPSService = new RPSSchedulerService(request, count, total, ConsoleLog);
+                    _RPSService = new RPSSchedulerService(request, count, total * 60, ConsoleLog);
                     _RPSService.Start();
                 }
                 else if (rb_VU.Checked)
                 {
-
+                    int user = 0;
+                    if (!int.TryParse(txt_VU_UserCount.Text, out user))
+                    {
+                        MessageBox.Show("模拟用户数量错误");
+                        return;
+                    }
+                    int interval = 0;
+                    if (!int.TryParse(txt_VU_Interval.Text, out interval))
+                    {
+                        MessageBox.Show("持续时长错误");
+                        return;
+                    }
+                    int total = 0;
+                    if (!int.TryParse(txt_VU_TotalTime.Text, out total))
+                    {
+                        MessageBox.Show("持续时长错误");
+                        return;
+                    }
+                    ClearConsole();
+                    _VUService = new VUSchedulerService(request, user, interval, total * 60, ConsoleLog);
+                    _VUService.Start();
                 }
 
                 UIEnabled(true);
@@ -161,16 +182,21 @@ namespace HttpTestTool
 
         private void btn_Stop_Click(object sender, EventArgs e)
         {
-            if (rb_RPS.Checked)
+            rb_RPS.Invoke(new Action(() =>
             {
-                if (_RPSService != null)
-                    _RPSService.Stop();
-            }
-            else if (rb_VU.Checked)
-            {
+                if (rb_RPS.Checked)
+                {
+                    if (_RPSService != null)
+                        _RPSService.Stop();
+                }
+                else if (rb_VU.Checked)
+                {
+                    if (_VUService != null)
+                        _VUService.Stop();
+                }
+                UIEnabled(false);
+            }));
 
-            }
-            UIEnabled(false);
         }
     }
 }

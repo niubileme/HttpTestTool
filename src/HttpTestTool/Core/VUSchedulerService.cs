@@ -10,29 +10,34 @@ using System.Threading.Tasks;
 
 namespace HttpTestTool.Core
 {
-    public class RPSSchedulerService
+    public class VUSchedulerService
     {
         private RequestModel _request;
-        private int _count;
+        private int _user;
+        private int _interval;
         private int _totalSecond;
 
         private Action<string> _console;
+        private List<Task> _tasks;
 
         private bool _isRunning;
         private readonly CancellationTokenSource _cancellation = new CancellationTokenSource();
         private CancellationToken _cancellationToken;
 
         private ConcurrentBag<CounterModel> _counter;
-        public RPSSchedulerService(RequestModel request, int count, int totalSecond, Action<string> console)
+        public VUSchedulerService(RequestModel request, int user, int interval, int totalSecond, Action<string> console)
         {
             _request = request;
-            _count = count;
+            _user = user;
+            _interval = interval;
             _totalSecond = totalSecond;
             _console = console;
 
+            _tasks = new List<Task>();
             _cancellationToken = _cancellation.Token;
             _cancellationToken.Register(() => { _console("正在停止..."); });
         }
+
         public void Start()
         {
             if (!_isRunning)
@@ -51,40 +56,39 @@ namespace HttpTestTool.Core
             {
                 _cancellation.Cancel();
                 _isRunning = false;
+                Task.WaitAll(_tasks.ToArray());
+                _console("已停止");
+                Count();
             }
         }
 
         private void DoWork()
         {
             _counter = new ConcurrentBag<CounterModel>();
-            for (int i = 0; i < _totalSecond; i++)
+            _tasks.Clear();
+            for (int i = 0; i < _user; i++)
             {
-                if (!_isRunning)
-                    break;
-                for (int j = 0; j < _count; j++)
-                {
-                    if (!_isRunning)
-                        break;
-                    Task.Run(() =>
-                    {
-                        try
-                        {
-                            _cancellationToken.ThrowIfCancellationRequested();
-                            Request();
-                        }
-                        catch (Exception ex)
-                        {
-                            if (ex is OperationCanceledException)
-                            {
-                                return;
-                            }
-                        }
-                    });
-                }
-                Thread.Sleep(1000);
+                var task = Task.Run(() =>
+                  {
+                      while (true)
+                      {
+                          try
+                          {
+                              _cancellationToken.ThrowIfCancellationRequested();
+                              Request();
+                          }
+                          catch (Exception ex)
+                          {
+                              if (ex is OperationCanceledException)
+                              {
+                                  break;
+                              }
+                          }
+                          Thread.Sleep(_interval);
+                      }
+                  });
+                _tasks.Add(task);
             }
-            _console("已停止");
-            Count();
         }
 
         private void Request()
@@ -102,7 +106,6 @@ namespace HttpTestTool.Core
                 MilliSeconds = sw.ElapsedMilliseconds,
                 Response = response
             });
-
         }
 
         private void Count()
@@ -118,7 +121,6 @@ namespace HttpTestTool.Core
             var avgElapsed = _counter.Average(x => x.MilliSeconds);
             _console(string.Format("总请求数：{0}，平均耗时：{1}ms", total, avgElapsed.ToString("0.000")));
         }
-
 
     }
 }
