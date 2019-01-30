@@ -47,6 +47,20 @@ namespace HttpTestTool.Core
                     _isRunning = true;
                     DoWork();
                 });
+
+                Task.Run(() =>
+                {
+                    var nowTicks = DateTime.Now.Ticks;
+                    while (true)
+                    {
+                        if (IsTimeout(nowTicks, _totalSecond))
+                        {
+                            break;
+                        }
+                        Thread.Sleep(200);
+                    }
+                    StopWork();
+                });
             }
         }
 
@@ -54,12 +68,17 @@ namespace HttpTestTool.Core
         {
             if (_isRunning)
             {
-                _cancellation.Cancel();
-                _isRunning = false;
-                Task.WaitAll(_tasks.ToArray());
-                _console("已停止");
-                Count();
+                StopWork();
             }
+        }
+
+        private void StopWork()
+        {
+            _cancellation.Cancel();
+            _isRunning = false;
+            Task.WaitAll(_tasks.ToArray());
+            _console("已停止");
+            Count();
         }
 
         private void DoWork()
@@ -122,5 +141,9 @@ namespace HttpTestTool.Core
             _console(string.Format("总请求数：{0}，平均耗时：{1}ms", total, avgElapsed.ToString("0.000")));
         }
 
+        public bool IsTimeout(long startTime, int timeout)
+        {
+            return ((DateTime.Now.Ticks - startTime) / 10000 / 1000) > (timeout - 1);
+        }
     }
 }
