@@ -26,7 +26,8 @@ namespace HttpTestTool
         private void MainForm_Load(object sender, EventArgs e)
         {
             //初始化
-            rtxt_Url.Text = "https://www.baidu.com/";
+            rtxt_Url.Text = "https://www.cnblogs.com/";
+            rtxt_RequestHeaders.AppendText("User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81 Safari/537.36\n");
 
             cbb_RequestMethod.SelectedIndex = 0;
             txt_RequestTimeOut.Text = "5000";
@@ -45,6 +46,12 @@ namespace HttpTestTool
 
         }
 
+        private void btnOAuth2_Click(object sender, EventArgs e)
+        {
+            var form = new OAuth2Form(SetBearerToken);
+            form.ShowDialog();
+        }
+
         private void btn_RequestTest_Click(object sender, EventArgs e)
         {
             var request = ValidateRequestParameter();
@@ -52,6 +59,40 @@ namespace HttpTestTool
             {
                 var response = HttpBuilder.Handle(request);
                 TestConsoleLog(response);
+            }
+        }
+
+        private void SetBearerToken(string token)
+        {
+            var dic = new Dictionary<string, string>();
+            if (!string.IsNullOrWhiteSpace(rtxt_RequestHeaders.Text))
+            {
+                var headers = rtxt_RequestHeaders.Text.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var header in headers)
+                {
+                    if (!string.IsNullOrWhiteSpace(header))
+                    {
+                        try
+                        {
+                            var item = header.Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+                            if (!string.IsNullOrWhiteSpace(item[0]) && !string.IsNullOrWhiteSpace(item[1]))
+                            {
+                                if (item[0].ToLower() != "authorization")
+                                    dic.Add(item[0], item[1]);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
+                }
+            }
+            dic.Add("Authorization", "Bearer " + token);
+            rtxt_RequestHeaders.Clear();
+            foreach (var item in dic)
+            {
+                rtxt_RequestHeaders.AppendText(string.Format("{0}:{1}\n", item.Key, item.Value));
             }
         }
 
@@ -83,9 +124,17 @@ namespace HttpTestTool
                 {
                     if (!string.IsNullOrWhiteSpace(header))
                     {
-                        var item = header.Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
-                        if (!string.IsNullOrWhiteSpace(item[0]) && !string.IsNullOrWhiteSpace(item[1]))
-                            request.Headers.Add(item[0], item[1]);
+                        try
+                        {
+                            var item = header.Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+                            if (!string.IsNullOrWhiteSpace(item[0]) && !string.IsNullOrWhiteSpace(item[1]))
+                                request.Headers.Add(item[0], item[1]);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "请求头错误");
+                            return null;
+                        }
                     }
                 }
             }
@@ -203,5 +252,6 @@ namespace HttpTestTool
             }));
 
         }
+
     }
 }

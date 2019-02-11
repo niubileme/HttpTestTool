@@ -38,6 +38,12 @@ namespace HttpTestTool.Core
                         request.UserAgent = header.Value;
                     else if (header.Key.ToLower() == "referer")
                         request.Referer = header.Value;
+                    else if (header.Key.ToLower() == "accept")
+                        request.Accept = header.Value;
+                    else if (header.Key.ToLower() == "host")
+                        request.Host = header.Value;
+                    else if (header.Key.ToLower() == "connection")
+                        request.Connection = header.Value;
                     else
                         request.Headers.Add(header.Key, header.Value);
                 }
