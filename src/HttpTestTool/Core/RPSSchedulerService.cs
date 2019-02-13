@@ -93,15 +93,18 @@ namespace HttpTestTool.Core
             sw.Start();
             var response = HttpBuilder.Handle(_request);
             sw.Stop();
-            var log = string.Format("线程{2}: Http状态码：{0}，耗时：{1}毫秒", response.StatusCode, sw.ElapsedMilliseconds, Thread.CurrentThread.ManagedThreadId);
-            _console(log);
-            //计数器
-            _counter.Add(new CounterModel()
+            if (_isRunning)
             {
-                ThreadId = Thread.CurrentThread.ManagedThreadId,
-                MilliSeconds = sw.ElapsedMilliseconds,
-                Response = response
-            });
+                var log = string.Format("线程{2}: Http状态码：{0}，耗时：{1}毫秒", response.StatusCode, sw.ElapsedMilliseconds, Thread.CurrentThread.ManagedThreadId);
+                _console(log);
+                //计数器
+                _counter.Add(new CounterModel()
+                {
+                    ThreadId = Thread.CurrentThread.ManagedThreadId,
+                    MilliSeconds = sw.ElapsedMilliseconds,
+                    Response = response
+                });
+            }
 
         }
 
